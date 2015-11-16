@@ -1,5 +1,5 @@
-NGINX_VERSION=1.6.0
-NSSM_VERSION=2.22
+NGINX_VERSION=1.8.0
+NSSM_VERSION=2.24
 
 MAKENSIS=/e/pApps/PortableApps/NSISPortable/App/NSIS/makensis.exe
 
