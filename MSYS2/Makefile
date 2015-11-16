@@ -42,7 +42,7 @@ deps/$(NSSM_PKG).zip:
 
 clean:
 	rm -rf ../build/*
-	rm -rf deps/*
-	rm -rf tmp/*
+	rm -rf deps
+	rm -rf tmp
 
 all: clean $(BIN)
