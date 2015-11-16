@@ -1,23 +1,28 @@
 NGINX_VERSION=1.6.0
 NSSM_VERSION=2.22
 
+MAKENSIS=/e/pApps/PortableApps/NSISPortable/App/NSIS/makensis.exe
+
 NGINX_LINK=http://nginx.org/download/nginx-$(NGINX_VERSION).zip
 NGINX_PKG=nginx-$(NGINX_VERSION)
 
 NSSM_LINK=http://nssm.cc/download/nssm-$(NSSM_VERSION).zip
 NSSM_PKG=nssm-$(NSSM_VERSION)
 
+
 BIN= build/nginx-service.exe
 
 .PHONY: clean all $(BIN)
 
 $(BIN): deps/$(NGINX_PKG)/* deps/$(NSSM_PKG)/*
+	mkdir -p tmp
 	cp -r deps/$(NGINX_PKG)/* tmp/
 	cp deps/$(NSSM_PKG)/win32/nssm.exe tmp/nssm.exe
-	cp -r src/*  tmp/
+	cp -r ../src/*  tmp/
 	mv tmp/conf/nginx.conf tmp/conf/nginx.conf.orig
-	cp -r add-on/* tmp/
-	cd tmp && makensis nginx.nsi
+	cp -r ../add-on/* tmp/
+	cd tmp && $(MAKENSIS) nginx.nsi
+	mkdir -p build
 	mv tmp/nginx-service.exe build/nginx-service.exe
 
 deps/$(NGINX_PKG)/*: deps/$(NGINX_PKG).zip
@@ -29,9 +34,11 @@ deps/$(NSSM_PKG)/*: deps/$(NSSM_PKG).zip
 	unzip deps/$(NSSM_PKG).zip -d deps/
 
 deps/$(NGINX_PKG).zip:
-	cd deps && wget $(NGINX_LINK)
+	mkdir -p deps
+	cd deps/ && wget $(NGINX_LINK)
 
 deps/$(NSSM_PKG).zip:
+	mkdir -p deps
 	cd deps && wget $(NSSM_LINK)
 
 clean:
