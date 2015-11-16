@@ -15,7 +15,6 @@ BIN= ../build/nginx-service.exe
 .PHONY: clean all $(BIN)
 
 $(BIN): deps/$(NGINX_PKG)/* deps/$(NSSM_PKG)/*
-	mkdir -p tmp
 	cp -r deps/$(NGINX_PKG)/* tmp/
 	cp deps/$(NSSM_PKG)/win32/nssm.exe tmp/nssm.exe
 	cp -r ../src/*  tmp/
@@ -33,16 +32,14 @@ deps/$(NSSM_PKG)/*: deps/$(NSSM_PKG).zip
 	unzip deps/$(NSSM_PKG).zip -d deps/
 
 deps/$(NGINX_PKG).zip:
-	mkdir -p deps
 	cd deps/ && wget $(NGINX_LINK)
 
 deps/$(NSSM_PKG).zip:
-	mkdir -p deps
 	cd deps && wget $(NSSM_LINK)
 
 clean:
 	rm -rf ../build/*
-	rm -rf deps
-	rm -rf tmp
+	rm -rf deps/*
+	rm -rf tmp/*
 
 all: clean $(BIN)
